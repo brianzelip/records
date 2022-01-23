@@ -1,7 +1,9 @@
-import { dirname, join } from 'path';
+import { join } from 'path';
 import { readFileSync } from 'fs';
 
-const __dirname = dirname(new URL(import.meta.url).pathname);
+import dirname from '@bzelip/dirname';
+
+const __dirname = dirname(import.meta.url);
 const pkg = JSON.parse(
   readFileSync(join(__dirname, '../package.json'), 'utf8')
 );
