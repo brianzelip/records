@@ -1,28 +1,23 @@
 import { join } from 'path';
 
-import dotenv from 'dotenv';
+import 'dotenv/config';
 import dirname from '@bzelip/dirname';
 import Fastify from 'fastify';
-import fastifyMongoDB from 'fastify-mongodb';
-import viewLayer from 'point-of-view';
+import formBodyPlugin from 'fastify-formbody';
+import viewLayerPlugin from 'point-of-view';
 import nunjucks from 'nunjucks';
 
-import dbHelper from './dbHelper.js';
-import routes from './routes.js';
 import siteSettings from './siteSettings.js';
+import db from './db.js';
+import recordSchema from './schema2.js';
+import recordModel from './model.js';
+import routes from './routes.js';
 
-dotenv.config();
 const __dirname = dirname(import.meta.url);
 const viewsDir = './views';
 const viewsRoot = join(__dirname, viewsDir);
-
-const dbOpts = {
-  // see https://github.com/fastify/fastify-mongodb
-  forceClose: true,
-  url: process.env.VINYL_DB_URI
-};
+const dbOpts = { uri: process.env.RECORDS_DB_URI };
 const viewOpts = {
-  // see https://github.com/fastify/point-of-view
   engine: { nunjucks },
   root: viewsRoot,
   defaultContext: siteSettings
@@ -30,10 +25,12 @@ const viewOpts = {
 
 const fastify = Fastify({ logger: true });
 
-fastify.register(fastifyMongoDB, dbOpts);
-fastify.register(dbHelper);
+fastify.register(db, dbOpts);
+fastify.register(recordSchema);
+fastify.register(recordModel);
+fastify.register(formBodyPlugin);
 fastify.register(routes);
-fastify.register(viewLayer, viewOpts);
+fastify.register(viewLayerPlugin, viewOpts);
 
 const server = async () => {
   try {

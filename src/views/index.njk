@@ -1,14 +1,137 @@
 <!DOCTYPE html>
 <html lang="en-US">
   <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{{ title }}</title>
-    <meta name="description" content="{{ description }}">
-    <meta name="author" content="{{ author.name }}">
-    <link rel="author" href="{{ author.uri }}">
+    <meta name="description" content="{{ description }}" />
+    <meta name="author" content="{{ author.name }}" />
+    <link rel="author" href="{{ author.uri }}" />
+    <style>
+      .list-reset {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+      }
+      fieldset {
+        border: none;
+      }
+      .multiInputs {
+        display: flex;
+        align-items: end;
+        column-gap: .5rem;
+      }
+      fieldset#genres > ul {
+        display: flex;
+        flex-wrap: wrap;
+      }
+      fieldset#genres > ul > li {
+        min-width: 150px;
+        max-width: 50vw;
+      }
+    </style>
   </head>
   <body>
     <h1>{{ title }}</h1>
+    <form method="POST" action="/add-record">
+      <fieldset>
+        <label for="title">Title:</label>
+        <input required type="text" id="title" name="title" />
+      </fieldset>
+      <fieldset id="artists" class="multiInputs">
+        <ul class="list-reset">
+          <li>
+            <label for="artist-1">Artist:</label>
+            <input type="text" id="artist-1" name="artist" />
+          </li>
+        </ul>
+        <button type="button" title="Add artist" data-js="addArtist">＋</button>
+      </fieldset>
+      <fieldset id="labels" class="multiInputs">
+        <ul class="list-reset">
+          <li>
+            <label for="label-1">Label:</label>
+            <input type="text" id="label-1" name="label" />
+          </li>
+        </ul>
+        <button type="button" title="Add label" data-js="addLabel">＋</button>
+      </fieldset>
+      <fieldset>
+        <label for="year">Year:</label>
+        <input type="text" id="year" name="year" />
+      </fieldset>
+      <fieldset id="genres">
+        <legend>Genre:</legend>
+        <ul class="list-reset">
+          {% for genre in genres %}
+            <li>              
+              <input
+                type="checkbox"
+                id="genre-{{ loop.index }}"
+                name="genre"
+                value="{{ genre }}"/>
+              <label for="genre-{{ loop.index }}">{{ genre }}</label>
+            </li>
+          {% endfor %}
+        </ul>
+      </fieldset>
+      <fieldset>
+        <label for="country">Country:</label>
+        <select name="country" id="country">
+          {% for c in countriesFull %}
+            <option
+              value="{{ c.country }}"{% if c.country === 'United States of America' %} selected{% endif %}>{{ c.alpha2 }}</option>
+          {% endfor %}
+        </select>
+      </fieldset>
+      <fieldset>
+        <label for="copies">Copies:</label>
+        <input
+          type="number"
+          min="1"
+          value="1"
+          id="copies"
+          name="copies"
+        />
+      </fieldset>
+      <button type="submit">Add record</button>
+    </form>
+
+    <script>
+      const addArtistBtn = document.querySelector('[data-js="addArtist"]');
+      const addLabelBtn = document.querySelector('[data-js="addLabel"]');
+
+      addArtistBtn.addEventListener('click', (e) => {
+        addItem(e.target.previousElementSibling, 'artist');
+      });
+
+      addLabelBtn.addEventListener('click', (e) => {
+        addItem(e.target.previousElementSibling, 'label');
+      });
+
+      /**
+       * Add new artist or label input component
+       * @param list DOM Element <ul>
+       * @param type String enum: artist, label
+       */
+      function addItem(list, type) {
+        const numListItems = list.childElementCount;
+        const label = type
+          .split('')
+          .map((letter, i) => {
+            return i === 0 ? letter.toUpperCase() : letter;
+          })
+          .join('');
+        const newItem = `
+          <li>
+            <label for="${type}-${numListItems + 1}">${label}:</label>
+            <input type="text" id="${type}-${numListItems + 1}" name="${type}" />
+          </li>
+          `;
+
+        list.insertAdjacentHTML('beforeend', newItem);
+      }
+
+    </script>
   </body>
 </html>

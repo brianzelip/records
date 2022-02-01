@@ -1,4 +1,5 @@
 // Ajv JSON schema validator, https://ajv.js.org/json-schema.html
+import { countries } from './data/countries.js';
 
 const phonographOriginYear = 1877;
 const nowYear = new Date().getFullYear();
@@ -16,16 +17,26 @@ const genres = [
   'children',
   'punk'
 ];
+const minCopies = 1;
+const maxCopies = 100;
 
 const recordSchema = {
   type: 'object',
-  required: ['title', 'artist'],
+  required: ['title', 'artists'],
   properties: {
     title: { type: 'string' },
-    artist: { type: 'string' },
-    label: { type: 'string' },
+    artists: {
+      type: 'array',
+      uniqueItems: true,
+      items: { type: 'string' }
+    },
+    labels: {
+      type: 'array',
+      uniqueItems: true,
+      items: { type: 'string' }
+    },
     year: {
-      type: 'number',
+      type: 'integer',
       minimum: phonographOriginYear,
       maximum: nowYear
     },
@@ -36,6 +47,15 @@ const recordSchema = {
         type: 'string',
         enum: genres
       }
+    },
+    copies: {
+      type: 'integer',
+      minimum: minCopies,
+      maximum: maxCopies
+    },
+    country: {
+      type: 'string',
+      enum: countries
     }
   }
 };
