@@ -1,0 +1,35 @@
+{
+  "name": "records-front",
+  "version": "0.1.0",
+  "description": "Record collection front end interface.",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview --port 5050",
+    "start": "npm run dev"
+  },
+  "dependencies": {
+    "vue": "^3.2.29",
+    "vue-router": "^4.0.12"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^2.1.0",
+    "autoprefixer": "^10.4.2",
+    "tailwindcss": "^3.0.23",
+    "vite": "^2.7.13"
+  },
+  "keywords": [
+    "Vue",
+    "Vite",
+    "SPA"
+  ],
+  "author": {
+    "name": "Brian Zelip",
+    "url": "https://zelip.me"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/brianzelip/records.git"
+  },
+  "license": "MIT"
+}
