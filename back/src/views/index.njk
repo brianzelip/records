@@ -7,29 +7,7 @@
     <meta name="description" content="{{ description }}" />
     <meta name="author" content="{{ author.name }}" />
     <link rel="author" href="{{ author.uri }}" />
-    <style>
-      .list-reset {
-        margin: 0;
-        padding: 0;
-        list-style: none;
-      }
-      fieldset {
-        border: none;
-      }
-      .multiInputs {
-        display: flex;
-        align-items: end;
-        column-gap: .5rem;
-      }
-      fieldset#genres > ul {
-        display: flex;
-        flex-wrap: wrap;
-      }
-      fieldset#genres > ul > li {
-        min-width: 150px;
-        max-width: 50vw;
-      }
-    </style>
+    <link rel="stylesheet" href="/wtf/main.css" />
   </head>
   <body>
     <h1>{{ title }}</h1>
@@ -45,7 +23,7 @@
             <input type="text" id="artist-1" name="artist" />
           </li>
         </ul>
-        <button type="button" title="Add artist" data-js="addArtist">＋</button>
+        <button type="button" title="Add artist" data-js-add-input="artist">＋</button>
       </fieldset>
       <fieldset id="labels" class="multiInputs">
         <ul class="list-reset">
@@ -54,7 +32,7 @@
             <input type="text" id="label-1" name="label" />
           </li>
         </ul>
-        <button type="button" title="Add label" data-js="addLabel">＋</button>
+        <button type="button" title="Add label" data-js-add-input="label">＋</button>
       </fieldset>
       <fieldset>
         <label for="year">Year:</label>
@@ -98,16 +76,15 @@
     </form>
 
     <script>
-      const addArtistBtn = document.querySelector('[data-js="addArtist"]');
-      const addLabelBtn = document.querySelector('[data-js="addLabel"]');
+      const addInputBtns = document.querySelectorAll('[data-js-add-input]');
 
-      addArtistBtn.addEventListener('click', (e) => {
-        addItem(e.target.previousElementSibling, 'artist');
-      });
-
-      addLabelBtn.addEventListener('click', (e) => {
-        addItem(e.target.previousElementSibling, 'label');
-      });
+      addInputBtns.forEach((btn) => {
+        btn.addEventListener('click', (e) => {
+          const list = e.target.previousElementSibling;
+          const type = e.target.dataset.jsAddInput;
+          addItem(list, type);
+        })
+      })
 
       /**
        * Add new artist or label input component

@@ -17,6 +17,7 @@ const genres = [
   'children',
   'punk'
 ];
+const sizes = ['12"', '10"', '7"'];
 const minCopies = 1;
 const maxCopies = 100;
 
@@ -56,7 +57,19 @@ const recordSchema = {
     country: {
       type: 'string',
       enum: countries
-    }
+    },
+    sizes: {
+      type: 'array',
+      uniqueItems: true,
+      items: {
+        type: 'string',
+        enum: sizes
+      }
+    },
+    color: { type: 'string' },
+    flexiDisc: { type: 'boolean' },
+    pictureDisc: { type: 'boolean' },
+    dieCut: { type: 'boolean' }
   }
 };
 

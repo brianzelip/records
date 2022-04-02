@@ -1,12 +1,10 @@
-import { join } from 'path';
+import { dirname, join } from 'path';
 import { readFileSync } from 'fs';
-
-import dirname from '@bzelip/dirname';
 
 import { countriesFull } from './data/countries.js';
 import genres from './data/genres.js';
 
-const __dirname = dirname(import.meta.url);
+const __dirname = dirname(new URL(import.meta.url).pathname);
 const pkg = JSON.parse(
   readFileSync(join(__dirname, '../package.json'), 'utf8')
 );

@@ -1,0 +1,48 @@
+{
+  "name": "records-back-end-server",
+  "version": "0.2.0",
+  "description": "Record collection back end server",
+  "type": "module",
+  "scripts": {
+    "start": "npm run dev",
+    "dev": "nodemon src/app.js -e js,njk",
+    "dev:back": "npm run dev -- $npm_package_config_ports_back",
+    "dev:front": "npm run dev --prefix src/front -- --port $npm_package_config_ports_front",
+    "newDev": "NODE_ENV=dev npx concurrently \"npm:dev:back\" \"npm:dev:front\""
+  },
+  "config": {
+    "ports": {
+      "back": 2600,
+      "front": 2601
+    }
+  },
+  "keywords": [
+    "Fastify",
+    "MongoDB",
+    "vinyl records"
+  ],
+  "author": {
+    "name": "Brian Zelip",
+    "url": "https://zelip.me/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/brianzelip/records.git"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "disconnect": "^1.2.2",
+    "dotenv": "^12.0.4",
+    "fastify": "^3.25.3",
+    "fastify-formbody": "^5.2.0",
+    "fastify-mongodb": "^4.1.1",
+    "fastify-plugin": "^3.0.0",
+    "fastify-static": "^4.5.0",
+    "mongoose": "^6.1.7",
+    "nunjucks": "^3.2.3",
+    "point-of-view": "^5.0.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15"
+  }
+}

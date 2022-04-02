@@ -3,6 +3,8 @@ import mongoose from 'mongoose';
 
 import { countries } from './data/countries.js';
 import genres from './data/genres.js';
+import sizes from './data/sizes.js';
+import years from './data/years.js';
 
 const { Schema } = mongoose;
 
@@ -15,9 +17,6 @@ const { Schema } = mongoose;
  * @example `mongoose.model('Record', fastify.recordSchema)`
  */
 function schemaPlugin(fastify, opts, done) {
-  const phonographOriginYear = 1877;
-  const nowYear = new Date().getFullYear();
-
   const recordSchema = new Schema({
     title: {
       type: String,
@@ -30,8 +29,8 @@ function schemaPlugin(fastify, opts, done) {
     label: [String],
     year: {
       type: Number,
-      min: phonographOriginYear,
-      max: nowYear
+      min: years.min,
+      max: years.max
     },
     genre: {
       type: [String],
@@ -44,7 +43,15 @@ function schemaPlugin(fastify, opts, done) {
     country: {
       type: String,
       enum: countries
-    }
+    },
+    size: {
+      type: String,
+      enum: sizes
+    },
+    color: { type: String },
+    flexiDisc: { type: Boolean },
+    pictureDisc: { type: Boolean },
+    dieCut: { type: Boolean }
   });
 
   fastify.decorate('recordSchema', recordSchema);
