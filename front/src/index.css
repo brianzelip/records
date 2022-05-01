@@ -35,29 +35,26 @@
     }
 
     input[type='checkbox'] {
-      background: transparent;
-      border: 2px solid white;
+      @apply border-white;
     }
-    input[type='checkbox']:hover {
+    input[type='checkbox']:hover,
+    input[type='checkbox']:checked {
       @apply border-green-500;
-    }
-    label:hover {
-      @apply text-green-500;
     }
     input[type='checkbox']:checked {
       @apply bg-green-500;
-      @apply border-green-500;
-    }
-    input[type='checkbox']:checked + label {
-      @apply text-green-500;
     }
     input[type='checkbox']::after {
-      @apply text-transparent;
       @apply bg-transparent;
+      @apply text-transparent;
     }
     input[type='checkbox']:checked::after {
-      content: '✓';
       @apply text-black;
+    }
+
+    input[type='checkbox']:hover + label,
+    input[type='checkbox']:checked + label {
+      @apply text-green-500;
     }
   }
 
@@ -93,16 +90,19 @@
   }
 
   input[type='checkbox'] {
-    appearance: unset;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    box-sizing: content-box;
+    @apply box-content;
+    @apply appearance-none;
     width: 10px;
     height: 10px;
-    border-radius: 2px;
+    @apply inline-flex;
+    @apply items-center;
+    @apply justify-center;
+    @apply bg-transparent;
+    @apply border-2;
+    @apply rounded-sm;
   }
-  input[type='checkbox']::after {
+  input[type='checkbox']::after,
+  input[type='checkbox']:checked::after {
     content: '✓';
     @apply font-semibold;
   }
