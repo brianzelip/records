@@ -133,3 +133,11 @@
     );
   @apply items-center;
 }
+
+.switch-grid-cols {
+  grid-template-columns: max-content max-content;
+}
+
+.small-caps {
+  font-variant-caps: small-caps;
+}
